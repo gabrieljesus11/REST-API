@@ -91,7 +91,7 @@ exports.deleteCourse = async function (id) {
     console.log(id)
     // Delete the course
     try {
-        var deleted = await course.remove({
+        var deleted = await Course.remove({
             _id: id
         })
         if (deleted.n === 0 && deleted.ok === 1) {
