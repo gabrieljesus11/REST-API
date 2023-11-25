@@ -11,7 +11,7 @@ var CourseSchema = new mongoose.Schema({
     horarios: {type: String},
     precio: {type: Number},
     moneda: {type: String},
-    idResponsable: {type: String},
+    idResponsable: {type: mongoose.Schema.Types.ObjectId},
     imagePath: {type: String}
 })
 

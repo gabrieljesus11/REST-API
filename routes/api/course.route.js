@@ -8,9 +8,9 @@ var Authorization = require('../../auth/authorization');
 /* GET users listing. */
 router.get('/allCourses',Authorization, CourseController.getCourses)
 router.post('/createCourse', CourseController.createCourse)
-/*router.post('/userByMail', Authorization, CourseController.getUsersByMail)
-router.put('/update', Authorization, CourseController.updateUser)
-router.delete('/delete', Authorization, CourseController.removeUser)*/
+router.post('/coursesByResponsible', Authorization, CourseController.getCoursesForResponsible)
+router.put('/update', Authorization, CourseController.updateCourse)
+router.delete('/delete', Authorization, CourseController.removeCourse)
 
 
 

@@ -24,7 +24,7 @@ exports.getUsersByMail = async function (req, res, next) {
     // Check the existence of the query parameters, If doesn't exists assign a default value
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
-    let filtro= {email: req.body.email}
+    let filtro= {usuario: req.body.usuario}
     console.log(filtro)
     try {
         var Users = await UserService.getUsers(filtro, page, limit)
@@ -63,16 +63,20 @@ exports.createUser = async function (req, res, next) {
 exports.updateUser = async function (req, res, next) {
 
     // Id is necessary for the update
-    if (!req.body.name) {
+    if (!req.body.usuario) {
         return res.status(400).json({status: 400., message: "Name be present"})
     }
 
     
     var User = {
-       
-        name: req.body.name ? req.body.name : null,
-        email: req.body.email ? req.body.email : null,
-        password: req.body.password ? req.body.password : null
+        usuario: req.body.usuario,
+        password: req.body.password,
+        nombre: req.body.nombre,
+        apellido: req.body.apellido,
+        telefono: req.body.telefono,
+        titulo: req.body.titulo,
+        experiencia: req.body.experiencia,
+        imageSource: req.body.imageSource
     }
 
     try {
@@ -101,7 +105,7 @@ exports.loginUser = async function (req, res, next) {
     var User = {
         email: req.body.email,
         password: req.body.password
-    }
+    } 
     try {
         // Calling the Service function with the new object from the Request Body
         var loginUser = await UserService.loginUser(User);

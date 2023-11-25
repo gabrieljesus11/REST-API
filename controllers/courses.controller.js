@@ -23,15 +23,15 @@ exports.getCourses = async function (req, res, next) {
 exports.createCourse = async function (req, res, next) {
     // Req.Body contains the form submit values.
     var Course = {
-        titulo: req.body,
-        descripcion: req.body,
-        fechaInicio: req.body,
-        duracion: req.body,
-        horarios: req.body,
-        precio: req.body,
-        moneda: req.body,
-        idResponsable: req.body,
-        imagePath: req.body
+        titulo: req.body.titulo,
+        descripcion: req.body.descripcion,
+        fechaInicio: req.body.fechaInicio,
+        duracion: req.body.duracion,
+        horarios: req.body.horarios,
+        precio: req.body.precio,
+        moneda: req.body.moneda,
+        idResponsable: req.body.idResponsable,
+        imagePath: req.body.imagePath
     }
     try {
         // Calling the Service function with the new object from the Request Body
@@ -39,8 +39,27 @@ exports.createCourse = async function (req, res, next) {
         return res.status(201).json({createdCourse, message: "Created Course Succesfully"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
-        console.log(e)
+        console.log("El error es: " + e)
         return res.status(400).json({status: 400, message: "Course Creation was Unsuccesfull"})
+    }
+}
+
+exports.getCoursesForResponsible = async function (req, res, next){
+    if (!req.body.idResponsable) {
+        return res.status(400).json({status: 400., message: "Id is necessary to perform this action"})
+    }
+
+    var page = req.query.page ? req.query.page : 1
+    var limit = req.query.limit ? req.query.limit : 10;
+    let filtro= {idResponsable: req.body.idResponsable}
+    
+    try {
+        var Courses = await CourseService.getCourses(filtro, page, limit)
+        // Return the Users list with the appropriate HTTP password Code and Message.
+        return res.status(200).json({status: 200, data: Courses, message: "Courses Recieved Succesfully"});
+    } catch (e) {
+        //Return an Error Response Message with Code and the Error Message.
+        return res.status(400).json({status: 400, message: e.message});
     }
 }
 
@@ -53,11 +72,11 @@ exports.updateCourse = async function (req, res, next) {
 
     
     var Course = {
-       
+        _id: req.body.id,
         titulo: req.body.titulo ? req.body.titulo : null,
         descripcion: req.body.descripcion ? req.body.descripcion  : null,
         fechaInicio: req.body.fechaInicio ? req.body.fechaInicio : null,
-        duracion: req.body.duración ? req.body.duración : null,
+        duracion: req.body.duracion ? req.body.duracion : null,
         horarios: req.body.fechaInicio ? req.body.fechaInicio : null,
         precio: req.body.precio ? req.body.precio : null,
         moneda: req.body.moneda ? req.body.moneda : null,
@@ -77,7 +96,7 @@ exports.removeCourse = async function (req, res, next) {
 
     var id = req.body.id;
     try {
-        var deleted = await courseService.deletecourse(id);
+        var deleted = await CourseService.deleteCourse(id);
         res.status(200).send("Succesfully Deleted... ");
     } catch (e) {
         return res.status(400).json({status: 400, message: e.message})

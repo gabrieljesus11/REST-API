@@ -2,6 +2,7 @@
 var Course = require('../models/Course.model');
 var bcrypt = require('bcryptjs');
 var jwt = require('jsonwebtoken');
+const { ObjectId } = require('mongodb')
 
 // Saving the context of this module inside the _the variable
 _this = this
@@ -29,16 +30,16 @@ exports.getCourses = async function (query, page, limit) {
 }
 
 exports.createCourse = async function (course) {
-    
+    let Fecha = course.fechaInicio.split('/');
     var newCourse = new Course({
         titulo: course.titulo,
         descripcion: course.descripcion,
-        fechaInicio: new Date(course.fechaInicio),
+        fechaInicio: (new Date(Fecha[0], Fecha[1]-1, Fecha[2])),
         duracion: course.duracion,
         horarios: course.horarios,
         precio: course.precio,
         moneda: course.moneda,
-        idResponsable: course.idResponsable,
+        idResponsable: ObjectId(course.idResponsable),
         imagePath: course.imagePath
     })
 
@@ -68,18 +69,25 @@ exports.updateCourse = async function (course) {
         return false;
     }
     //Edit the course Object
-    oldcourse.name = course.name
-    oldcourse.email = course.email
-    oldcourse.password = hashedPassword
+    oldCourse.titulo = course.titulo != undefined ? course.titulo : oldCourse.titulo
+    oldCourse.descripcion = course.descripcion != undefined ? course.descripcion : oldCourse.descripcion
+    oldCourse.fechaInicio = course.fechaInicio != undefined ? course.fechaInicio : oldCourse.fechaInicio
+    oldCourse.duracion = course.duracion != undefined ? course.duracion : oldCourse.duracion
+    oldCourse.horarios = course.horarios != undefined ? course.horarios : oldCourse.horarios
+    oldCourse.precio = course.precio != undefined ? course.precio : oldCourse.precio
+    oldCourse.moneda = course.moneda != undefined ? course.moneda : oldCourse.moneda
+    oldCourse.idResponsable = course.idResponsable != undefined ? course.idResponsable : oldCourse.idResponsable
+    oldCourse.imagePath = course.imagePath != undefined ? course.imagePath : oldCourse.imagePath
+
     try {
-        var savedcourse = await oldcourse.save()
-        return savedcourse;
+        var savedCourse = await oldCourse.save()
+        return savedCourse;
     } catch (e) {
         throw Error("And Error occured while updating the course");
     }
 }
 
-exports.deletecourse = async function (id) {
+exports.deleteCourse = async function (id) {
     console.log(id)
     // Delete the course
     try {
@@ -93,31 +101,4 @@ exports.deletecourse = async function (id) {
     } catch (e) {
         throw Error("Error Occured while Deleting the course")
     }
-}
-
-
-exports.logincourse = async function (course) {
-
-    // Creating a new Mongoose Object by using the new keyword
-    try {
-        // Find the course 
-        console.log("login:",course)
-        var _details = await course.findOne({
-            usuario: course.email, 
-        });
-        //var passwordIsValid = bcrypt.compareSync(course.password, _details.password);
-        var passwordIsValid = (course.password == _details.password)
-        if (!passwordIsValid) return 0;
-
-        var token = jwt.sign({
-            id: _details._id
-        }, process.env.SECRET, {
-            expiresIn: 86400 // expires in 24 hours
-        });
-        return {token:token, course:_details};
-    } catch (e) {
-        // return a Error message describing the reason     
-        throw Error("Error while Login course")
-    }
-
 }
