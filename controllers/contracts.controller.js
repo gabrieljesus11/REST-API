@@ -13,7 +13,7 @@ exports.getContracts = async function (req, res, next) {
     try {
         var Contracts = await ContractService.getContracts({}, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.
-        return res.status(200).json({status: 200, data: Courses, message: "Contacts Recieved Succesfully"});
+        return res.status(200).json({status: 200, data: Contracts, message: "Contacts Recieved Succesfully"});
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: e.message});
@@ -55,9 +55,9 @@ exports.getContractsForCourse = async function (req, res, next){
     let filtro= {idCurso: req.body.idCurso}
     
     try {
-        var Contracts = await ContractService.getCourses(filtro, page, limit)
+        var Contracts = await ContractService.getContracts(filtro, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.
-        return res.status(200).json({status: 200, data: Courses, message: "Contracts Recieved Succesfully"});
+        return res.status(200).json({status: 200, data: Contracts, message: "Contracts Recieved Succesfully"});
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: e.message});

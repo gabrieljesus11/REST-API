@@ -16,7 +16,7 @@ var ContractSchema = new mongoose.Schema({
     estaCancelado: {type: Boolean}
 })
 
-CourseSchema.plugin(mongoosePaginate)
+ContractSchema.plugin(mongoosePaginate)
 const Contract = mongoose.model('Contract', ContractSchema)
 
 module.exports = Contract;
