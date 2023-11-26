@@ -5,9 +5,11 @@ var router = express.Router()
 var users = require('./api/user.route');
 var courses = require('./api/course.route')
 var contracts = require('./api/contract.route')
+var comments = require('./api/comment.route')
 
 router.use('/users', users);
 router.use('/courses', courses);
 router.use('/contracts', contracts);
+router.use('/comments', comments)
 
 module.exports = router;

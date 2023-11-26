@@ -11,6 +11,7 @@ var UserSchema = new mongoose.Schema({
     titulo: {type: String},
     experiencia: {type: String},
     imageSource: {type: String},
+    courses: {type: Array}
 })
 
 UserSchema.plugin(mongoosePaginate)
