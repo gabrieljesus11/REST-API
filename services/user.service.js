@@ -40,7 +40,8 @@ exports.createUser = async function (user) {
         telefono: user.telefono,
         titulo: user.titulo,
         experiencia: user.experiencia,
-        imageSource: user.imageSource
+        imageSource: user.imageSource,
+        courses: user.courses
     })
 
     try {
