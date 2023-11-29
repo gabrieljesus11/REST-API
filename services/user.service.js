@@ -62,7 +62,7 @@ exports.createUser = async function (user) {
 
 exports.updateUser = async function (user) {
     
-    var id = {name: user.name}
+    var id = {usuario: user.usuario}
     console.log(id)
     try {
         //Find the old User Object by the Id
@@ -86,7 +86,7 @@ exports.updateUser = async function (user) {
     oldUser.titulo = user.titulo != undefined ? user.titulo : oldUser.titulo
     oldUser.experiencia = user.experiencia != undefined ? user.experiencia : oldUser.experiencia
     oldUser.imageSource = user.imageSource != undefined ? user.imageSource : oldUser.imageSource
-
+    oldUser.courses = user.courses != undefined ? user.courses : oldUser.courses
     try {
         var savedUser = await oldUser.save()
         return savedUser;

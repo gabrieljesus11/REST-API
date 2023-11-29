@@ -46,6 +46,7 @@ exports.createCourse = async function (course) {
     try {
         // Saving the course 
         var savedCourse = await newCourse.save();
+        return savedCourse
     } catch (e) {
         // return a Error message describing the reason 
         console.log(e)    

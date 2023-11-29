@@ -1,5 +1,5 @@
 var CourseService = require('../services/courses.service');
-
+var UserService = require('../services/user.service');
 
 // Saving the context of this module inside the _the variable
 _this = this;
@@ -33,9 +33,19 @@ exports.createCourse = async function (req, res, next) {
         idResponsable: req.body.idResponsable,
         imagePath: req.body.imagePath
     }
+
     try {
         // Calling the Service function with the new object from the Request Body
+        var page = req.query.page ? req.query.page : 1
+        var limit = req.query.limit ? req.query.limit : 1;
+        let filtro= {_id: req.body.idResponsable}
+        
+        var responsible = await UserService.getUsers(filtro, page, limit)
         var createdCourse = await CourseService.createCourse(Course)
+        responsible = responsible.docs[0]
+        responsible.courses.push(createdCourse._id)
+        console.log("Mi responsable es: "+ responsible)
+        var updatedResponsible = await UserService.updateUser(responsible)
         return res.status(201).json({createdCourse, message: "Created Course Succesfully"})
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
