@@ -128,7 +128,7 @@ exports.loginUser = async function (user) {
         var token = jwt.sign({
             id: _details._id
         }, process.env.SECRET, {
-            expiresIn: 86400 // expires in 24 hours
+            expiresIn: 3600 // expires in 24 hours
         });
         return {token:token, user:_details};
     } catch (e) {

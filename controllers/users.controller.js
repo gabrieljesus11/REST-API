@@ -65,7 +65,7 @@ exports.updateUser = async function (req, res, next) {
 
     // Id is necessary for the update
     if (!req.body.usuario) {
-        return res.status(400).json({status: 400., message: "Name be present"})
+        return res.status(400).json({status: 400., message: "El campo correo electrónico no puede estar vacío"})
     }
 
     
