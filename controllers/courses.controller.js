@@ -8,8 +8,8 @@ _this = this;
 exports.getCourses = async function (req, res, next) {
 
     // Check the existence of the query parameters, If doesn't exists assign a default value
-    var page = req.query.page ? req.query.page : 1
-    var limit = req.query.limit ? req.query.limit : 10;
+    var page = req.query.page ? +req.query.page : 1
+    var limit = req.query.limit ? +req.query.limit : 10;
     try {
         var Courses = await CourseService.getCourses({}, page, limit)
         // Return the Users list with the appropriate HTTP password Code and Message.

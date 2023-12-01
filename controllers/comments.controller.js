@@ -26,14 +26,13 @@ exports.createComment = async function (req, res, next) {
     }
 }
 
-exports.getCommentsForCourse = async function (req, res, next){
-    if (!req.body.idCurso) {
-        return res.status(400).json({status: 400., message: "Id is necessary to perform this action"})
+exports.getCommentsForCourses = async function (req, res, next){
+    if (!req.body.courses) {
+        return res.status(400).json({status: 400., message: "Courses array is necessary to perform this action"})
     }
-
     var page = req.query.page ? req.query.page : 1
     var limit = req.query.limit ? req.query.limit : 10;
-    let filtro= {idCurso: req.body.idCurso}
+    let filtro= {idCurso: {$in:req.body.courses}}
     
     try {
         var Comments = await CommentService.getComments(filtro, page, limit)

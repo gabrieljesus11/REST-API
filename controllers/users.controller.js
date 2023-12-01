@@ -114,10 +114,14 @@ exports.loginUser = async function (req, res, next) {
             return res.status(400).json({message: "Usuario o contraseña incorrecta"})
         else
             return res.status(201).json({loginUser, message: "Succesfully login"})
+
+        res.status(200).json(aggregatedPost);
     } catch (e) {
         //Return an Error Response Message with Code and the Error Message.
         return res.status(400).json({status: 400, message: "Usuario o contraseña incorrecta"})
     }
+
+
 }
 
 

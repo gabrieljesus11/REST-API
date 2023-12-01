@@ -7,7 +7,7 @@ var CommentSchema = new mongoose.Schema({
     nombreEstudiante: {type: String},
     mail: {type: String},
     comentario: {type: String},
-    idCurso: {type: mongoose.Schema.Types.ObjectId},
+    idCurso: {type: String},
     puntaje: {type: Number},
     estaAceptado: {type: Boolean},
     estaBloqueado: {type: Boolean}
